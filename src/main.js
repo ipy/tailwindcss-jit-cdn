@@ -1,14 +1,17 @@
 import observerScript from "./observer";
+import throttle from "./modules/throttle";
 
-(() => {  
+(() => {
   const config = {
     attributes: true,
     attributeFilter: ["class"],
     childList: true,
-    subtree: true, 
+    subtree: true,
   };
 
-  new MutationObserver(observerScript(false)).observe(
+  const throttledObserver = throttle(observerScript(false), 3000);
+
+  new MutationObserver(throttledObserver).observe(
     document.documentElement,
     config
   );
@@ -17,5 +20,5 @@ import observerScript from "./observer";
 
   window.tailwindCSS = {
     refresh: observerScript(true),
-  }
+  };
 })();
